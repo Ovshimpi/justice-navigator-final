@@ -15,30 +15,28 @@
 # Production
 /build
 
-# Miscellaneous
+# Misc
 .DS_Store
 *.pem
 
-# Local Environment Variables
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local .env file
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*.local
 
 # Firebase
-/.firebase
-firebase-debug.log
-database-debug.log
+.firebase
 
-# IDEs and editors
-/.vscode
+# Editor directories and files
+.vscode
 .idea
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# TypeScript
-*.tsbuildinfo
