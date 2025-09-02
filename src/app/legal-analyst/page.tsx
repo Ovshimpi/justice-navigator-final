@@ -51,6 +51,16 @@ export default function LegalAnalystPage() {
         return;
     }
 
+    if (file.size > 5 * 1024 * 1024) { // 5MB in bytes
+        toast({
+            title: 'File too large',
+            description: 'Please upload a file smaller than 5MB.',
+            variant: 'destructive',
+        });
+        setIsLoading(false);
+        return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = async () => {
@@ -93,7 +103,7 @@ export default function LegalAnalystPage() {
             <CardTitle className="flex items-center gap-2">
               <Upload className="h-5 w-5" /> Document Upload
             </CardTitle>
-            <CardDescription>Select a PDF file (English or Marathi) from your device.</CardDescription>
+            <CardDescription>Select a PDF file (max 5MB, English or Marathi) from your device.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid w-full items-center gap-1.5">
@@ -244,3 +254,5 @@ export default function LegalAnalystPage() {
     </div>
   );
 }
+
+    
