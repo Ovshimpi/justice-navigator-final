@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Loader2, Upload, Sparkles, CheckCircle, Gavel, AlertTriangle, ShieldAlert, Users, MapPin, Calendar } from 'lucide-react';
+import { FileText, Loader2, Upload, Sparkles, CheckCircle, Gavel, AlertTriangle, ShieldAlert, Users, MapPin, Calendar, FileWarning } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function LegalAnalystPage() {
@@ -124,7 +124,20 @@ export default function LegalAnalystPage() {
         </div>
       )}
 
-      {result && (
+      {result && !result.isLegalDocument && (
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-destructive">
+                <FileWarning className="h-6 w-6" /> Document Not Recognized
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+             <p className="text-center text-lg">The uploaded document does not appear to be a legal document. Please upload a valid legal document like a contract, notice, or affidavit for analysis.</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {result && result.isLegalDocument && (
         <Card className="max-w-4xl mx-auto">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
@@ -134,13 +147,13 @@ export default function LegalAnalystPage() {
             </CardHeader>
             <CardContent>
             <Accordion type="multiple" defaultValue={['summary']} className="w-full space-y-2">
-              <AccordionItem value="summary" className="bg-background/50 rounded-lg px-4">
+              {result.summary && <AccordionItem value="summary" className="bg-background/50 rounded-lg px-4">
                 <AccordionTrigger className="text-lg font-headline hover:no-underline">Summary</AccordionTrigger>
                 <AccordionContent className="text-base leading-relaxed prose prose-invert max-w-none pt-2">
                   {result.summary}
                 </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="key-points" className="bg-background/50 rounded-lg px-4">
+              </AccordionItem>}
+              {result.keyPoints && result.keyPoints.length > 0 && <AccordionItem value="key-points" className="bg-background/50 rounded-lg px-4">
                 <AccordionTrigger className="text-lg font-headline hover:no-underline">Key Points</AccordionTrigger>
                 <AccordionContent className="pt-2">
                   <ul className="space-y-3 list-inside">
@@ -152,7 +165,7 @@ export default function LegalAnalystPage() {
                     ))}
                   </ul>
                 </AccordionContent>
-              </AccordionItem>
+              </AccordionItem>}
               {result.extractedEntities && (result.extractedEntities.parties.length > 0 || result.extractedEntities.locations.length > 0 || result.extractedEntities.dates.length > 0) && (
                  <AccordionItem value="entities" className="bg-background/50 rounded-lg px-4">
                     <AccordionTrigger className="text-lg font-headline hover:no-underline">Key Entities</AccordionTrigger>
