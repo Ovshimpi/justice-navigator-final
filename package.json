@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node --max-old-space-size=4096 node_modules/next/dist/bin/next dev --turbopack -p 9002",
+    "dev": "npm run genkit:watch & node --max-old-space-size=4096 node_modules/next/dist/bin/next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx src/ai/dev.ts --watch",
-    "build": "next build",
+    "build": "genkit build -O .genkit && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
